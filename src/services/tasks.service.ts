@@ -9,7 +9,13 @@ export interface TaskInput {
 }
 
 export const tasksService = {
-  getAll: async (params: { page?: number; limit?: number; search?: string; projectId?: number } = {}) => {
+  getAll: async (params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    projectId?: number;
+    assignedToMe?: boolean;
+  } = {}) => {
     const { data } = await api.get<PaginatedResponse<Task>>('/tasks', { params });
     return data;
   },

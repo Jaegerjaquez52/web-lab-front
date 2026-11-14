@@ -85,7 +85,12 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         <div className="border-t border-white/10 p-4">
-          <div className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
+          <Link
+            to="/profile"
+            onClick={onClose}
+            aria-label="Відкрити мій профіль"
+            className="flex items-center gap-3 rounded-xl bg-white/5 p-3 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-sm font-semibold text-blue-200">
               {initials || 'TM'}
             </span>
@@ -95,7 +100,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 {user?.role === 'ADMIN' ? 'Адміністратор' : 'Учасник команди'}
               </span>
             </span>
-          </div>
+          </Link>
         </div>
       </aside>
     </>

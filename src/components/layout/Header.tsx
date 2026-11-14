@@ -16,6 +16,7 @@ function getTitle(pathname: string) {
   if (pathname === '/projects') return 'Проєкти';
   if (/^\/projects\/\d+$/.test(pathname)) return 'Проєкт';
   if (pathname === '/teams') return 'Команди';
+  if (pathname === '/profile') return 'Мій профіль';
   if (pathname === '/users/create') return 'Новий користувач';
   if (/^\/users\/\d+\/edit$/.test(pathname)) return 'Редагування користувача';
   if (pathname.startsWith('/users/')) return 'Профіль користувача';

@@ -29,6 +29,7 @@ export default function Layout() {
       '/teams': 'Команди',
       '/tasks': 'Завдання',
       '/notifications': 'Сповіщення',
+      '/profile': 'Мій профіль',
     } as Record<string, string>)[pathname] ?? 'Сторінку не знайдено';
     const description = `${title} — керування завданнями, проєктами та командною роботою в Task Manager.`;
     document.title = `${title} | Task Manager`;

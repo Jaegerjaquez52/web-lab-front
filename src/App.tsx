@@ -18,6 +18,7 @@ const ProjectDetailsPage = lazy(() => import('@/pages/ProjectDetailsPage'));
 const TeamsPage = lazy(() => import('@/pages/TeamsPage'));
 const TasksPage = lazy(() => import('@/pages/TasksPage'));
 const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
+const ProfilePage = lazy(() => import('@/pages/ProfilePage'));
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="teams" element={<ProtectedRoute><TeamsPage /></ProtectedRoute>} />
             <Route path="tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
             <Route path="notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+            <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
