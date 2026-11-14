@@ -61,7 +61,9 @@ export default function TasksPage() {
   });
 
   const update = useMutation({
-    mutationFn: ({ id, status }: { id: number; status: Task['status'] }) => tasksService.update(id, { status }),
+    mutationFn: ({ id, ...updates }: { id: number } & Partial<Pick<Task, 'status' | 'dueDate'>>) => (
+      tasksService.update(id, updates)
+    ),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
     onError: () => toast.error('Не вдалося оновити завдання'),
   });
@@ -218,6 +220,17 @@ export default function TasksPage() {
                         <option value="IN_PROGRESS">У роботі</option>
                         <option value="DONE">Виконано</option>
                       </select>
+                      <label className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+                        <span className="shrink-0">Термін:</span>
+                        <input
+                          type="date"
+                          aria-label={`Термін виконання: ${task.title}`}
+                          value={task.dueDate?.slice(0, 10) ?? ''}
+                          disabled={update.isPending}
+                          className="w-[10.5rem] rounded-xl border border-slate-200 bg-white px-2 py-2 text-sm text-slate-700 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                          onChange={(event) => update.mutate({ id: task.id, dueDate: event.target.value || null })}
+                        />
+                      </label>
                       <ConfirmActionButton
                         isPending={remove.isPending}
                         title={`Видалити завдання «${task.title}»?`}

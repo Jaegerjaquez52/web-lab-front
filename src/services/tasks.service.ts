@@ -4,6 +4,7 @@ import type { PaginatedResponse, Task } from '@/types/api.types';
 export interface TaskInput {
   title: string;
   description?: string;
+  dueDate?: string | null;
   projectId: number;
   status?: Task['status'];
 }

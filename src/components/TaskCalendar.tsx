@@ -17,7 +17,8 @@ export default function TaskCalendar({ tasks }: TaskCalendarProps) {
   const tasksByDate = useMemo(() => {
     const map = new Map<string, Task[]>();
     for (const task of tasks) {
-      const key = toLocalDateKey(new Date(task.createdAt));
+      if (!task.dueDate) continue;
+      const key = task.dueDate.slice(0, 10);
       map.set(key, [...(map.get(key) ?? []), task]);
     }
     return map;
@@ -59,14 +60,15 @@ export default function TaskCalendar({ tasks }: TaskCalendarProps) {
       </div>
       <div className="mt-5 border-t border-slate-200 pt-4 dark:border-slate-800">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-          Завдання за {new Date(`${selectedDate}T00:00:00`).toLocaleDateString('uk-UA')}
+          Завдання зі строком на {new Date(`${selectedDate}T00:00:00`).toLocaleDateString('uk-UA')}
         </h3>
         {selectedTasks.length ? (
           <ul className="mt-2 space-y-2">
             {selectedTasks.map((task) => <li key={task.id} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-200">{task.title}</li>)}
           </ul>
-        ) : <p className="mt-2 text-sm text-slate-500">На цю дату завдань немає.</p>}
+        ) : <p className="mt-2 text-sm text-slate-500">На цей день немає завдань із терміном.</p>}
       </div>
+      <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">У календарі показані лише завдання з установленим терміном виконання.</p>
     </section>
   );
 }

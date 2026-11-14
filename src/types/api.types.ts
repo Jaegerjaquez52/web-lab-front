@@ -79,6 +79,7 @@ export interface Task {
   title: string;
   description: string | null;
   status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+  dueDate: string | null;
   projectId: number | null;
   project?: TaskProject | null;
   assignments?: TaskAssignment[];

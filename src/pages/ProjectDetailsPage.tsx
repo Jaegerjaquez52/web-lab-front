@@ -119,7 +119,9 @@ export default function ProjectDetailsPage() {
     },
   });
   const update = useMutation({
-    mutationFn: ({ id: taskId, status }: { id: number; status: Task['status'] }) => tasksService.update(taskId, { status }),
+    mutationFn: ({ id: taskId, ...updates }: { id: number } & Partial<Pick<TaskInput, 'status' | 'dueDate'>>) => (
+      tasksService.update(taskId, updates)
+    ),
     onSuccess: refreshTasks,
     onError: () => toast.error('Не вдалося оновити завдання'),
   });
@@ -181,7 +183,11 @@ export default function ProjectDetailsPage() {
       </div>
 
       <form
-        onSubmit={handleSubmit((values) => create.mutate({ ...values, projectId }))}
+        onSubmit={handleSubmit((values) => create.mutate({
+          ...values,
+          dueDate: values.dueDate || null,
+          projectId,
+        }))}
         className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6"
         noValidate
       >
@@ -194,12 +200,15 @@ export default function ProjectDetailsPage() {
             <p className="text-xs text-slate-500 dark:text-slate-400">Завдання автоматично додається до цього проєкту.</p>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1.4fr_auto]">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1.4fr_1fr_auto]">
           <FormField label="Назва" error={errors.title?.message}>
             <Input placeholder="Наприклад, Підготувати макет" {...register('title', { required: 'Вкажіть назву' })} />
           </FormField>
           <FormField label="Опис">
             <Input placeholder="Додаткова інформація" {...register('description')} />
+          </FormField>
+          <FormField label="Термін виконання (необов’язково)">
+            <Input type="date" {...register('dueDate')} />
           </FormField>
           <div className="flex items-end">
             <Button type="submit" isLoading={isSubmitting || create.isPending}>
@@ -264,6 +273,17 @@ export default function ProjectDetailsPage() {
                         <option value="IN_PROGRESS">У роботі</option>
                         <option value="DONE">Виконано</option>
                       </select>
+                      <label className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+                        <span className="shrink-0">Термін:</span>
+                        <Input
+                          type="date"
+                          aria-label={`Термін виконання: ${task.title}`}
+                          value={task.dueDate?.slice(0, 10) ?? ''}
+                          disabled={update.isPending}
+                          className="w-[10.5rem] px-2 py-2"
+                          onChange={(event) => update.mutate({ id: task.id, dueDate: event.target.value || null })}
+                        />
+                      </label>
                       <ConfirmActionButton
                         isPending={remove.isPending}
                         title={`Видалити завдання «${task.title}»?`}
