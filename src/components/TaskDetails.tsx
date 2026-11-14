@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 import api from '@/services/api';
 import Button from '@/components/common/Button';
+import Icon from '@/components/common/Icon';
 import Tabs from '@/components/common/Tabs';
 import type { PaginatedResponse } from '@/types/api.types';
 import { useSocketEvent } from '@/hooks/useSocketEvent';
@@ -156,12 +157,26 @@ export default function TaskDetails({ taskId }: { taskId: number }) {
                   <input
                     ref={fileInputRef}
                     type="file"
+                    className="sr-only"
+                    aria-label="Вибрати файл для завантаження"
+                    tabIndex={-1}
                     accept=".jpg,.jpeg,.png,.gif,.pdf,image/jpeg,image/png,image/gif,application/pdf"
                     onChange={(event) => {
                       setSelectedFile(event.target.files?.[0] ?? null);
                       setCropFile(null);
                     }}
                   />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="inline-flex items-center gap-2 rounded-xl border-2 border-dashed border-blue-400 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 transition hover:border-blue-500 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/20 dark:border-blue-500/60 dark:bg-blue-500/10 dark:text-blue-200 dark:hover:bg-blue-500/20"
+                  >
+                    <Icon name="plus" size={17} />
+                    Додати файл
+                  </button>
+                  <span className="max-w-52 truncate text-sm text-slate-500 dark:text-slate-400" title={selectedFile?.name}>
+                    {selectedFile?.name ?? 'Файл не вибрано'}
+                  </span>
                   <Button type="submit" disabled={!selectedFile} isLoading={upload.isPending}>Завантажити</Button>
                   {selectedFile?.type.startsWith('image/') && (
                     <Button type="button" variant="secondary" disabled={upload.isPending} onClick={() => setCropFile(selectedFile)}>
