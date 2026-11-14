@@ -1,6 +1,6 @@
 import api from './api';
 import type { PaginatedResponse, User } from '@/types/api.types';
-import type { UserFormData } from '@/schemas/user.schema';
+import type { CreateUserFormData, UserFormData } from '@/schemas/user.schema';
 
 export interface UsersQuery {
   page?: number;
@@ -17,7 +17,7 @@ export const usersService = {
     const { data } = await api.get<User>(`/users/${id}`);
     return data;
   },
-  create: async (payload: UserFormData) => {
+  create: async (payload: CreateUserFormData) => {
     const { data } = await api.post<User>('/users', payload);
     return data;
   },

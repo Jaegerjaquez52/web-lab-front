@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Task Manager",
+  "short_name": "Task Manager",
+  "description": "Керування проєктами та завданнями команди.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

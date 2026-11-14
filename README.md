@@ -1,32 +1,134 @@
-# React + TypeScript + Vite
+# Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Опис проєкту
 
-Currently, two official plugins are available:
+Клієнтський застосунок для керування роботою команд: користувачами, командами, проєктами та завданнями. Користувачі можуть переглядати й оновлювати доступні їм дані, обговорювати завдання, додавати до них файли та отримувати сповіщення. Застосунок взаємодіє з backend API та підтримує оновлення в реальному часі.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Функціональність
 
-## React Compiler
+- ✅ Реєстрація та автентифікація з JWT, оновлення токенів і вихід з облікового запису
+- ✅ Захищені маршрути для автентифікованих користувачів
+- ✅ Перегляд, створення, редагування та видалення користувачів, команд і проєктів
+- ✅ Створення й видалення завдань, зміна статусу завдання
+- ✅ Валідація форм через React Hook Form; Zod-схеми використовуються для форм автентифікації та користувачів
+- ✅ Клієнтський стан автентифікації з Zustand, серверні дані з TanStack Query
+- ✅ Toast-сповіщення та індикатори помилок
+- ✅ Пошук і пагінація списків; фільтрування завдань за проєктом
+- ✅ Скелетні індикатори завантаження
+- ✅ Коментарі та файли до завдань
+- ✅ Сповіщення та оновлення завдань і коментарів у реальному часі через Socket.IO
+- ✅ Онлайн-статус користувачів
+- ✅ Модальні підтвердження, вкладки та пошук учасників у випадному списку
+- ✅ Перетягування завдань для зміни порядку (порядок зберігається локально у браузері)
+- ✅ Діаграма статусів і календар активності завдань у проєкті
+- ✅ Нескінченне прокручування сповіщень
+- ✅ Обрізання зображень перед завантаженням і rich-text редактор коментарів
+- ✅ Анімація переходів між сторінками
+- ✅ Відкладене завантаження сторінок та важких компонентів
+- ✅ PWA з service worker, кешем статичних ресурсів і офлайн-сторінкою
+- ✅ SEO-метадані, Open Graph і кешування серверних даних через TanStack Query
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+У форм проєктів і завдань Zod-валідація поки не підключена; повне редагування завдання в інтерфейсі наразі обмежене зміною його статусу.
+Календар групує завдання за датою створення; дати завершення наразі не зберігаються.
 
-## Expanding the Oxlint configuration
+## Технології
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- React 19 + TypeScript
+- Vite
+- Tailwind CSS 4
+- React Router 8
+- Axios
+- React Hook Form + Zod 4
+- Zustand
+- TanStack Query
+- React Hot Toast
+- Socket.IO Client
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## API-ендпоїнти
+
+Застосунок взаємодіє з backend API за адресою `http://localhost:3000/api` за замовчуванням.
+
+- `/auth/login`, `/auth/register`, `/auth/refresh`, `/auth/logout` — автентифікація
+- `/users`, `/users/:id` — користувачі
+- `/projects`, `/projects/:id` — проєкти
+- `/teams`, `/teams/:id` — команди
+- `/tasks`, `/tasks/:id`, `/tasks/:id/claim` — завдання та виконавці
+- `/comments` — коментарі до завдань
+- `/files`, `/files/upload`, `/files/:id` — файли завдань
+- `/notifications`, `/notifications/read-all` — сповіщення
+
+## Встановлення та запуск
+
+### Вимоги
+
+- Node.js 24 LTS або новіший
+- npm
+- Backend API, запущений на `http://localhost:3000`
+
+### Інструкції
+
+```bash
+# Перейдіть до клієнтського проєкту
+cd task-manager-client
+
+# Встановіть залежності
+npm ci
+
+# Скопіюйте файл змінних середовища
+cp .env.example .env
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Переконайтеся, що у `.env` задані адреси API та Socket.IO:
+
+```dotenv
+VITE_API_URL=http://localhost:3000/api
+VITE_SOCKET_URL=http://localhost:3000
+```
+
+Запустіть застосунок у режимі розробки:
+
+```bash
+npm run dev
+```
+
+Інші доступні команди:
+
+```bash
+npm run lint
+npm test
+npm run build
+npm run analyze
+```
+
+Команда `npm run analyze` створює звіт складу збірки у `dist/bundle-report.html`.
+
+## Розгортання
+
+Клієнт налаштовано для розгортання на Netlify через GitHub Actions. Після створення сайту Netlify додайте до репозиторію:
+
+- Variables: `VITE_API_URL` (URL API з `/api`), `VITE_SOCKET_URL` (URL Socket.IO без `/api`), `NETLIFY_SITE_ID`.
+- Secret: `NETLIFY_AUTH_TOKEN`.
+
+Після цього workflow перевіряє lint, тести та збірку, а потім публікує `dist` при push до `main` або вручну через GitHub Actions. Для розгортання також налаштуйте backend CORS так, щоб він дозволяв домен клієнта. Сам сайт у хостингу ще не розгорнуто.
+
+## Структура проєкту
+
+```text
+src/
+├── components/
+│   ├── common/          # Спільні UI-компоненти
+│   ├── layout/          # Компоненти розмітки та навігації
+│   ├── ProtectedRoute.tsx
+│   └── TaskDetails.tsx
+├── hooks/               # Власні хуки React
+├── pages/               # Сторінки застосунку
+├── schemas/             # Схеми валідації
+├── services/            # API-клієнт і сервіси
+├── stores/              # Сховища Zustand
+├── types/               # Типи TypeScript
+└── utils/               # Допоміжні функції
+```
+
+## Скріншоти
+
+Скріншоти основних сторінок буде додано після ручного тестування лабораторної роботи №6.

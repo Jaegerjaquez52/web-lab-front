@@ -7,19 +7,30 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test": "vitest run",
+    "analyze": "vite build --mode analyze",
     "format": "prettier --write src",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^7.0.5",
     "@tailwindcss/vite": "^4.3.5",
     "@tanstack/react-query": "^5.107.1",
+    "@tiptap/extension-link": "^3.34.0",
+    "@tiptap/react": "^3.34.0",
+    "@tiptap/starter-kit": "^3.34.0",
     "axios": "^1.21.1",
+    "dompurify": "^3.4.18",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "react-easy-crop": "^6.2.5",
     "react-hook-form": "^7.91.0",
     "react-hot-toast": "^2.6.1",
     "react-router": "^8.5.1",
+    "socket.io-client": "^4.8.4",
     "tailwindcss": "^4.3.5",
     "zod": "^4.6.7",
     "zustand": "^5.1.0"
@@ -36,8 +47,10 @@
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.14.0",
     "prettier": "^3.9.10",
-    "typescript": "~7.0.2",
+    "rollup-plugin-visualizer": "^7.1.3",
+    "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.2",
-    "vite": "^8.3.6"
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
   }
 }

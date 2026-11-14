@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const loginSchema = z.object({
   email: z.string().email({ message: 'Невірний формат email' }),
   password: z.string().min(8, { message: 'Пароль має містити мінімум 8 символів' }),
+  twoFactorToken: z.string().optional(),
 });
 
 export const registerSchema = z
