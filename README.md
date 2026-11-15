@@ -56,12 +56,11 @@ Task Manager допомагає командам організовувати р
 
 - **Frontend (Vercel):** [web-lab-front-pi.vercel.app](https://web-lab-front-pi.vercel.app/)
 - **Backend (Render):** `https://web-lab-6k6v.onrender.com`
-- **API base:** `https://web-lab-6k6v.onrender.com/api`
 - **Swagger UI:** [web-lab-6k6v.onrender.com/api/docs](https://web-lab-6k6v.onrender.com/api/docs)
 
 Безкоштовний екземпляр backend на Render може засинати після періоду неактивності, тому перший запит після паузи може виконуватися довше.
 
-Для production-конфігурації на backend задайте `DATABASE_URL`, `JWT_SECRET`, `REFRESH_TOKEN_SECRET`, `JWT_EXPIRES_IN`, `REFRESH_TOKEN_EXPIRES_IN`, `FRONTEND_URL`, `API_URL`, `RATE_LIMIT`, `MAX_FILE_SIZE` і `UPLOAD_DIR`. На frontend задайте `VITE_API_URL=https://web-lab-6k6v.onrender.com/api`, `VITE_SOCKET_URL=https://web-lab-6k6v.onrender.com` та, за потреби, `VITE_APP_NAME`. Секрети зберігайте лише у налаштуваннях середовища хостингу.
+Для production-конфігурації на backend задайте `DATABASE_URL`, `JWT_SECRET`, `REFRESH_TOKEN_SECRET`, `JWT_EXPIRES_IN`, `REFRESH_TOKEN_EXPIRES_IN`, `FRONTEND_URL`, `API_URL`, `RATE_LIMIT`, `MAX_FILE_SIZE` і `UPLOAD_DIR`. На frontend задайте `VITE_API_URL=https://web-lab-6k6v.onrender.com/api`, `VITE_SOCKET_URL=https://web-lab-6k6v.onrender.com` та, за потреби, `VITE_APP_NAME`.
 
 ## Локальне встановлення та запуск
 
@@ -85,7 +84,7 @@ cd web-lab
 npm ci
 ```
 
-Скопіюйте `.env.example` у `.env` і задайте власні значення. Не використовуйте секрети з репозиторію або README.
+Скопіюйте `.env.example` у `.env` і задайте власні значення.
 
 ```dotenv
 PORT=3000
@@ -158,35 +157,82 @@ npm run analyze
 
 ## Скриншоти
 
-### Головна сторінка та dashboard
+### Розгортання та автентифікація
+
+![Розгортання](./screenshots/00-DEPLOYMENT.png)
+
+![Вхід](./screenshots/01-LOGIN.png)
+
+![Реєстрація](./screenshots/02-REGISTRATION.png)
+
+### Головна сторінка, проєкти та команди
 
 ![Головна сторінка](./screenshots/03-MAIN-PAGE.png)
 
-![Dashboard і проєкти](./screenshots/04-PROJECTS-1.png)
+![Проєкти](./screenshots/05-PROJECTS-2.png)
 
-### Робота із завданнями
+![Команди](./screenshots/06-TEAMS-1.png)
 
-![Список завдань](./screenshots/13-TASK-1.png)
+### Користувачі
 
-![Фільтрування завдань](./screenshots/16-FILTER.png)
+![Список користувачів](./screenshots/08-USERS.png)
 
-### Коментарі, файли та сповіщення
+![Сторінка користувача](./screenshots/09-USER-PAGE.png)
 
-![Коментарі до завдань](./screenshots/23-COMMENTS.png)
+![Редагування користувача](./screenshots/10-USER-EDIT.png)
 
-![Файли завдань](./screenshots/24-FILES.png)
+### Сповіщення, завдання та пошук
 
 ![Сповіщення](./screenshots/11-NOTIFICATIONS-1.png)
 
-### Мобільний вигляд та офлайн-сторінка
+![Список сповіщень](./screenshots/12-NOTIFICATIONS-2.png)
 
-![Мобільний вигляд](./screenshots/18-MOBILE-MAIN.jpg)
+![Завдання](./screenshots/13-TASK-1.png)
+
+![Деталі завдання](./screenshots/14-TASK-2.png)
+
+![Пошук](./screenshots/15-SEARCH.png)
+
+![Фільтрування](./screenshots/16-FILTER.png)
+
+### Мобільна версія
+
+<p align="center">
+  <img src="./screenshots/17-MOBILE-LOGIN.jpg" alt="Вхід на мобільному пристрої" width="160" />
+  <img src="./screenshots/18-MOBILE-MAIN.jpg" alt="Головна сторінка на мобільному пристрої" width="160" />
+  <img src="./screenshots/19-MOBILE-SIDE.jpg" alt="Бічне меню на мобільному пристрої" width="160" />
+</p>
+
+### Коментарі, файли та інші можливості
+
+![Коментарі](./screenshots/23-COMMENTS.png)
+
+![Файли](./screenshots/24-FILES.png)
+
+![Попередній перегляд файлу](./screenshots/25-FILES-PREVIEW.png)
+
+![Редагування файлу](./screenshots/26-FILE-EDIT.png)
+
+![Підтвердження видалення](./screenshots/27-DELETE.png)
+
+### Офлайн-сторінка
 
 ![Офлайн-сторінка](./screenshots/28-OFFLINE.jpg)
 
+### Тести
+
+![Результати тестів](./screenshots/29-TESTS.png)
+
 ## Продуктивність
 
-Оцінки Lighthouse та Core Web Vitals (Performance, Accessibility, Best Practices, SEO, LCP, INP, CLS) окремо не вимірювалися, тому числові значення не наводяться. Розмір production-збірки можна перевірити командою `npm run analyze`.
+Lighthouse запущено для [розгорнутої версії](https://web-lab-front-pi.vercel.app/) у **mobile-профілі**. Оцінки, LCP і CLS — середні значення трьох запусків у режимі Navigation. INP виміряно окремо в режимі Timespan під час взаємодії із сайтом.
+
+- Performance / Accessibility / Best Practices / SEO: **98 / 100 / 100 / 100**
+- Початкові JS і CSS ресурси (gzip): **154 136 байтів (150,5 KiB)**
+- LCP: **2.3с**, CLS: **0.004**
+- INP: **50 мс** (Timespan).
+
+`npm run analyze` створює окремий звіт складу збірки у `dist/bundle-report.html`.
 
 ## Безпека
 
@@ -200,7 +246,8 @@ npm run analyze
 
 ## Тестові дані
 
-Окремий спільний демо-акаунт не публікується. Створіть користувача через сторінку реєстрації розгорнутого або локального застосунку.
+Email: user1@x.com
+Password: 12341234
 
 ## Автор
 
